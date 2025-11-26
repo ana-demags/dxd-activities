@@ -150,7 +150,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                         {selectedActivity?.pillar && (
                             <div>
                                 <h3 className="text-lg font-normal font-display text-foreground mb-2">Pillar(s)</h3>
-                                <p className="text-sm text-foreground/80 leading-[150%] font-light">
+                                <p className="text-sm text-foreground/80 leading-[150%] font-ligh tracking-tighter">
                                     {selectedActivity.pillar}
                                 </p>
                             </div>
@@ -159,7 +159,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                         {selectedActivity?.purpose && (
                             <div>
                                 <h3 className="text-lg font-normal font-display text-foreground mb-2">Purpose</h3>
-                                <p className="text-sm text-foreground/80 leading-[150%] font-light">
+                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
                                     {selectedActivity.purpose}
                                 </p>
                             </div>
@@ -168,7 +168,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                         {selectedActivity?.hostRole && (
                             <div>
                                 <h3 className="text-lg font-normal font-display text-foreground mb-2">Host's role</h3>
-                                <p className="text-sm text-foreground/80 leading-[150%] font-light">
+                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
                                     {selectedActivity.hostRole}
                                 </p>
                             </div>
