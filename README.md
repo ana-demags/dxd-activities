@@ -1,4 +1,4 @@
-# Wheel of Design Fortune - Walkthrough
+# Quick walkthrough
 
 ## Overview
 A premium, interactive web application featuring two **Slot Machine** style reels for selecting meeting hosts and design activities. Built with **React**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui**.
