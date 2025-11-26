@@ -22,6 +22,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
     const [isSpinning, setIsSpinning] = useState(false);
     const [sheetOpen, setSheetOpen] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState<WheelItem | null>(null);
+    const [selectedHost, setSelectedHost] = useState<WheelItem | null>(null);
     const itemHeight = 72;
     const repeatCount = 20;
 
@@ -37,6 +38,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
         const hostWinnerIndex = Math.floor(Math.random() * hosts.length);
         const activityWinnerIndex = Math.floor(Math.random() * activities.length);
 
+        const selectedHostWinner = hosts[hostWinnerIndex];
         const selectedActivityWinner = activities[activityWinnerIndex];
 
         // Calculate scroll distances
@@ -56,6 +58,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
         setTimeout(() => {
             setIsSpinning(false);
             setSelectedActivity(selectedActivityWinner);
+            setSelectedHost(selectedHostWinner);
             setSheetOpen(true);
 
             // Reset both strips silently
@@ -149,7 +152,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                     <div className="mt-8 space-y-6">
                         {selectedActivity?.pillar && (
                             <div>
-                                <h3 className="text-lg font-normal font-display text-foreground mb-2">Pillar(s)</h3>
+                                <h3 className="text-lg font-normal font-display text-foreground mb-1">Pillar(s)</h3>
                                 <p className="text-sm text-foreground/80 leading-[150%] font-ligh tracking-tighter">
                                     {selectedActivity.pillar}
                                 </p>
@@ -158,16 +161,24 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
 
                         {selectedActivity?.purpose && (
                             <div>
-                                <h3 className="text-lg font-normal font-display text-foreground mb-2">Purpose</h3>
+                                <h3 className="text-lg font-normal font-display text-foreground mb-1">Purpose</h3>
                                 <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
                                     {selectedActivity.purpose}
                                 </p>
                             </div>
                         )}
 
+                        {selectedHost && (
+                            <div>
+                                <h3 className="text-lg font-normal font-display text-foreground mb-1">Host</h3>
+                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
+                                    {selectedHost.label}
+                                </p>
+                            </div>
+                        )}
                         {selectedActivity?.hostRole && (
                             <div>
-                                <h3 className="text-lg font-normal font-display text-foreground mb-2">Host's role</h3>
+                                <h3 className="text-lg font-normal font-display text-foreground mb-1">Host's role</h3>
                                 <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
                                     {selectedActivity.hostRole}
                                 </p>

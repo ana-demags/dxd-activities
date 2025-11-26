@@ -2,6 +2,7 @@ export interface WheelItem {
   label: string;
   pillar?: string;
   purpose?: string;
+  host?: string;
   hostRole?: string;
 }
 
