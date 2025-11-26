@@ -99,8 +99,8 @@ function App() {
                                 />
                             </span>
                         </h1>
-                        <p className="text-foreground/80 text-sm leading-[150%] font-light max-w-[400px] mx-auto lg:mx-0">
-                            This is the Design & DX edition of wheel of fortune. Every week, we spin the wheel to reveal a new host and activity.{' '}
+                        <p className="text-foreground/80 text-sm leading-[150%] tracking-tighter font-light max-w-[400px] mx-auto lg:mx-0">
+                            Welcome to the DX Design team's edition of wheel of fortune, sort of. Every week, we spin to reveal a new host and activity.{' '}
                             (<Button
                                 variant="link"
                                 className="text-foreground/80 p-0 h-auto font-light underline decoration-dashed underline-offset-4 hover:text-foreground"
@@ -124,7 +124,7 @@ function App() {
                                 What's this thing about?
                             </SheetTitle>
                         </SheetHeader>
-                        <div className="space-y-6 text-foreground/80 text-sm leading-[150%] font-light">
+                        <div className="space-y-6 text-foreground/80 text-sm leading-[150%] tracking-tighter font-light">
                             <p>
                                 Our goal with these sessions is to keep design, product thinking, and creativity alive in our team. They’re short, low-lift moments of togetherness that invite everyone to think like designers, educators, and storytellers (because we all are!)
                             </p>
@@ -132,7 +132,7 @@ function App() {
                                 We make space to zoom out, celebrate small details, and remind ourselves why great experiences matter. Every session is meant to spark curiosity and deepen our shared understanding of the crafts that connect us.
                             </p>
                             <p>
-                                To keep things fresh and inclusive, these sessions use rotating hosts. Each week or every other week, a different teammate takes the lead in facilitating the session. Hosting doesn’t require preparation beyond choosing a topic or prompt, and it’s a great way for everyone to bring their perspective to the table. Hosts should keep track of time and encourage everyone to contribute.
+                                To keep things fresh and inclusive, these sessions use rotating hosts. Each week or every other week, a different teammate takes the lead in facilitating the session. Hosting doesn’t require preparation beyond choosing a topic or prompt, and it’s a great way for everyone to bring their perspective to the table.
                             </p>
                         </div>
                     </SheetContent>
