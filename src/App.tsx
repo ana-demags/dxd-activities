@@ -132,7 +132,7 @@ function App() {
                                 We make space to zoom out, celebrate small details, and remind ourselves why great experiences matter. Every session is meant to spark curiosity and deepen our shared understanding of the crafts that connect us.
                             </p>
                             <p>
-                                To keep things fresh and inclusive, these sessions use rotating hosts. Each week or every other week, a different teammate takes the lead in facilitating the session. Hosting doesn’t require preparation beyond choosing a topic or prompt, and it’s a great way for everyone to bring their perspective to the table. Hosts should keep track of time and encourage everyone to contribute. You can pick from the options below or remix an idea.
+                                To keep things fresh and inclusive, these sessions use rotating hosts. Each week or every other week, a different teammate takes the lead in facilitating the session. Hosting doesn’t require preparation beyond choosing a topic or prompt, and it’s a great way for everyone to bring their perspective to the table. Hosts should keep track of time and encourage everyone to contribute.
                             </p>
                         </div>
                     </SheetContent>
