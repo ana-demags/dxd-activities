@@ -10,7 +10,6 @@ export const hosts: WheelItem[] = [
   { label: 'Brian' },
   { label: 'Ronan' },
   { label: 'Michelle' },
-  { label: 'Parker' },
   { label: 'Daniel' },
   { label: 'Jay' },
   { label: 'Caydie' },
