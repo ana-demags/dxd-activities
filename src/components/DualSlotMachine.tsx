@@ -212,35 +212,33 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                 {isSpinning ? 'Fortune telling...' : 'Spin right round'}
             </Button>
 
-            <div className="mt-4 w-full space-y-4">
-                <Button
-                    variant="outline"
-                    onClick={() => {
-                        const section = document.getElementById('design-exercises');
-                        section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }}
-                    onMouseEnter={() => arrowDownRef.current?.startAnimation()}
-                    onMouseLeave={() => arrowDownRef.current?.stopAnimation()}
-                    size="lg"
-                    className="w-full text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-sm tracking-[-0.5px] h-[88px] font-sans border-border/20"
-                >
-                    View all exercises
-                    <ArrowDownIcon ref={arrowDownRef} className="ml-3" size={20} />
-                </Button>
-                {selectedActivity && !isSpinning && (
+            {selectedActivity && !isSpinning && (
+                <div className="mt-4 w-full flex gap-4">
+                    <Button
+                        variant="outline"
+                        onClick={() => {
+                            const section = document.getElementById('design-exercises');
+                            section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }}
+                        onMouseEnter={() => arrowDownRef.current?.startAnimation()}
+                        onMouseLeave={() => arrowDownRef.current?.stopAnimation()}
+                        className="flex-1 text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-sm tracking-[-0.5px] h-[88px] font-sans border-border/20"
+                    >
+                        View all activities
+                        <ArrowDownIcon ref={arrowDownRef} className="ml-3" size={20} />
+                    </Button>
                     <Button
                         variant="outline"
                         onClick={() => setSheetOpen(true)}
                         onMouseEnter={() => circleHelpRef.current?.startAnimation()}
                         onMouseLeave={() => circleHelpRef.current?.stopAnimation()}
-                        size="lg"
-                        className="w-full text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-sm tracking-[-0.5px] h-[88px] font-sans border-border/20"
+                        className="flex-1 text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-sm tracking-[-0.5px] h-[88px] font-sans border-border/20"
                     >
                         Activity details
                         <CircleHelpIcon ref={circleHelpRef} className="ml-3" size={20} />
                     </Button>
-                )}
-            </div>
+                </div>
+            )}
 
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetContent className="bg-background border-border/20 sm:max-w-[500px]">

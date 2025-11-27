@@ -170,7 +170,7 @@ function App() {
                         <div className="lg:sticky lg:top-8 lg:self-start">
                             <h3 className="text-lg font-display text-foreground mb-4 flex items-center gap-3">
                                 <FolderOpen size={18} className="text-foreground/80" />
-                                All exercises
+                                All activities
                             </h3>
                             <nav className="border-l border-foreground/20 pl-4 space-y-1">
                                 {activities.map((activity) => (
