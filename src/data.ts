@@ -25,7 +25,7 @@ export const activities: WheelItem[] = [
     hostRole: 'Bring a familiar screen (from our product or a well-known app). Lead the group in brainstorming how we might remix it: what to change, simplify, or exaggerate. Wrap up by surfacing a few principles we uncovered along the way. It’s fast, playful, and full of shared insights about what makes design work.'
   },
   {
-    label: 'Tiny UX treasure',
+    label: 'Small UX treasures',
     pillar: 'Experience',
     purpose: 'Celebrate small moments of design excellence and understand why they work.',
     hostRole: 'Share a micro-interaction, flow, or piece of copy that made you smile. Guide the group in unpacking what makes it sing: Is it the tone, timing, emotion, the craft behind it, or all of the above? Close with one takeaway or quality we want to carry forward in our own work. Over time, these treasures can live in a shared “UX Treasure Chest” for future inspiration.'

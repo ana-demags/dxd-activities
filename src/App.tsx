@@ -5,15 +5,18 @@ import { Button } from '@/components/ui/button';
 import { WashingMachineIcon, WashingMachineIconHandle } from '@/components/ui/washing-machine';
 import { CornerDownRightIcon, CornerDownRightIconHandle } from '@/components/ui/corner-down-right';
 import { LoaderPinwheelIcon, LoaderPinwheelIconHandle } from '@/components/ui/loader-pinwheel';
+import { FolderOpen } from 'lucide-react';
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 function App() {
     const [isWhySheetOpen, setIsWhySheetOpen] = useState(false);
+    const [selectedActivity, setSelectedActivity] = useState<string>(activities[0].label);
     const washingMachineRef = useRef<WashingMachineIconHandle>(null);
     const cornerDownRightRef = useRef<CornerDownRightIconHandle>(null);
     const loaderPinwheelRef = useRef<LoaderPinwheelIconHandle>(null);
@@ -48,7 +51,7 @@ function App() {
     }, []);
 
     return (
-        <div className="min-h-screen w-full bg-background flex items-center justify-center p-8">
+        <div className="min-h-screen w-full bg-background flex items-center justify-center px-8 py-20">
             <div className="w-full mx-auto" style={{ maxWidth: '1184px' }}>
                 {/* 2-column layout on large screens, stacked on smaller screens */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-[48px] lg:gap-[56px] items-center">
@@ -123,19 +126,95 @@ function App() {
                         </SheetHeader>
                         <div className="space-y-6 text-foreground/80 text-sm leading-[150%] tracking-tighter font-light">
                             <p>
-                                This little site was made with love (and your usual, slightly obsessive design traits) by Ana De Magalhães. </p>
+                                This little site was made with love (and the usual, slightly obsessive designer traits) by Ana De Magalhães. </p>
                             <p>
-                                Our goal with these activities is to keep design, product thinking, and creativity alive in our team. They’re short, low-lift moments of togetherness that invite everyone to think like designers, educators, and storytellers (because we all are!)
+                                Our goal with these activities is to keep design, product thinking, and creativity alive in our team. They're short, low-lift moments of togetherness that invite everyone to think like designers, educators, and storytellers (because we all are!)
                             </p>
                             <p>
                                 We make space to zoom out, celebrate small details, and remind ourselves why great experiences matter. Every session is meant to spark curiosity and deepen our shared understanding of the crafts that connect us.
                             </p>
                             <p>
-                                To keep things fresh and inclusive, these sessions use rotating hosts. Each week or every other week, a different teammate takes the lead in facilitating the session. Hosting doesn’t require preparation beyond choosing a topic or prompt, and it’s a great way for everyone to bring their perspective to the table.
+                                To keep things fresh and inclusive, these sessions use rotating hosts. Each week or every other week, a different teammate takes the lead in facilitating the session. Hosting doesn't require preparation beyond choosing a topic or prompt, and it's a great way for everyone to bring their perspective to the table.
                             </p>
                         </div>
                     </SheetContent>
                 </Sheet>
+
+                {/* Design Exercises Section */}
+                <section id="design-exercises" className="w-full" style={{ marginTop: '304px' }}>
+                    <h2 className="font-display font-bold text-foreground mb-20 text-center lg:text-left tracking-tight" style={{ fontSize: '88px' }}>
+                        Design exercises
+                    </h2>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-20">
+                        {/* Navigation List */}
+                        <div className="lg:sticky lg:top-8 lg:self-start">
+                            <h3 className="text-lg font-display text-foreground mb-4 flex items-center gap-3">
+                                <FolderOpen size={18} className="text-foreground/80" />
+                                All exercises
+                            </h3>
+                            <nav className="border-l border-foreground/20 pl-4 space-y-1">
+                                {activities.map((activity) => (
+                                    <button
+                                        key={activity.label}
+                                        onClick={() => setSelectedActivity(activity.label)}
+                                        className={cn(
+                                            "w-full text-left px-4 py-3 rounded-md text-sm font-light tracking-tighter transition-colors",
+                                            selectedActivity === activity.label
+                                                ? "bg-foreground/5 text-foreground"
+                                                : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
+                                        )}
+                                    >
+                                        {activity.label}
+                                    </button>
+                                ))}
+                            </nav>
+                        </div>
+
+                        {/* Activity Details Content */}
+                        <div className="min-h-[400px]">
+                            {(() => {
+                                const activity = activities.find(a => a.label === selectedActivity);
+                                if (!activity) return null;
+
+                                return (
+                                    <div className="space-y-6">
+                                        <h3 className="font-display font-bold text-foreground mb-4 tracking-tight" style={{ fontSize: '56px' }}>
+                                            {activity.label}
+                                        </h3>
+
+                                        {activity.pillar && (
+                                            <div className="mb-4">
+                                                <h4 className="text-lg font-normal font-display text-foreground mb-1">Pillar(s)</h4>
+                                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
+                                                    {activity.pillar}
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {activity.purpose && (
+                                            <div className="mb-4">
+                                                <h4 className="text-lg font-normal font-display text-foreground mb-1">Purpose</h4>
+                                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
+                                                    {activity.purpose}
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {activity.hostRole && (
+                                            <div className="mb-4">
+                                                <h4 className="text-lg font-normal font-display text-foreground mb-1">Host's role</h4>
+                                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
+                                                    {activity.hostRole}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })()}
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     );

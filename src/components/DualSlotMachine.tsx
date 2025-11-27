@@ -3,12 +3,14 @@ import { WheelItem } from '../data';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { CircleHelpIcon, CircleHelpIconHandle } from '@/components/ui/circle-help';
+import { ArrowDownIcon, ArrowDownIconHandle } from '@/components/ui/arrow-down';
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface DualSlotMachineProps {
     hosts: WheelItem[];
@@ -19,6 +21,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
     const hostStripRef = useRef<HTMLDivElement>(null);
     const activityStripRef = useRef<HTMLDivElement>(null);
     const circleHelpRef = useRef<CircleHelpIconHandle>(null);
+    const arrowDownRef = useRef<ArrowDownIconHandle>(null);
     const [isSpinning, setIsSpinning] = useState(false);
     const [sheetOpen, setSheetOpen] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState<WheelItem | null>(null);
@@ -107,7 +110,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
 
     return (
         <div className="w-full max-w-xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 {/* Host Slot */}
                 <div className="flex flex-col gap-3">
                     <h3 className="text-lg font-normal font-display text-foreground">Host</h3>
@@ -151,22 +154,36 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                 className="w-full bg-foreground hover:bg-foreground/90 text-background text-sm tracking-[-0.5px] h-[88px] font-sans"
                 size="lg"
             >
-                {isSpinning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isSpinning && <Loader2 className="mr-2 h-4 w-4 animate-spin tracking-tighter" />}
                 {isSpinning ? 'Fortune telling...' : 'Spin right round'}
             </Button>
 
-            <div className="h-[88px] mt-2 w-full">
+            <div className="mt-4 w-full space-y-4">
+                <Button
+                    variant="outline"
+                    onClick={() => {
+                        const section = document.getElementById('design-exercises');
+                        section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }}
+                    onMouseEnter={() => arrowDownRef.current?.startAnimation()}
+                    onMouseLeave={() => arrowDownRef.current?.stopAnimation()}
+                    size="lg"
+                    className="w-full text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-sm tracking-[-0.5px] h-[88px] font-sans border-border/20"
+                >
+                    View all exercises
+                    <ArrowDownIcon ref={arrowDownRef} className="ml-3" size={20} />
+                </Button>
                 {selectedActivity && (
                     <Button
-                        variant="ghost"
+                        variant="outline"
                         onClick={() => setSheetOpen(true)}
                         onMouseEnter={() => circleHelpRef.current?.startAnimation()}
                         onMouseLeave={() => circleHelpRef.current?.stopAnimation()}
                         size="lg"
-                        className="w-full text-foreground/50 hover:text-foreground hover:bg-foreground/10 text-sm tracking-[-0.5px] h-[88px] font-sans"
+                        className="w-full text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-sm tracking-[-0.5px] h-[88px] font-sans border-border/20"
                     >
-                        <CircleHelpIcon ref={circleHelpRef} className="mr-2" size={20} />
                         Activity details
+                        <CircleHelpIcon ref={circleHelpRef} className="ml-3" size={20} />
                     </Button>
                 )}
             </div>
@@ -180,10 +197,26 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                     </SheetHeader>
 
                     <div className="mt-8 space-y-6">
+                        {selectedHost && (
+                            <div>
+                                <h3 className="text-lg font-normal font-display text-foreground mb-1">Host</h3>
+                                <div className="flex items-center gap-3">
+                                    <Avatar className="h-8 w-8">
+                                        <AvatarFallback className="text-xs bg-foreground/10 text-foreground">
+                                            {selectedHost.label.split(' ').map(n => n[0]).join('')}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
+                                        {selectedHost.label}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
                         {selectedActivity?.pillar && (
                             <div>
                                 <h3 className="text-lg font-normal font-display text-foreground mb-1">Pillar(s)</h3>
-                                <p className="text-sm text-foreground/80 leading-[150%] font-ligh tracking-tighter">
+                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
                                     {selectedActivity.pillar}
                                 </p>
                             </div>
@@ -194,15 +227,6 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                                 <h3 className="text-lg font-normal font-display text-foreground mb-1">Purpose</h3>
                                 <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
                                     {selectedActivity.purpose}
-                                </p>
-                            </div>
-                        )}
-
-                        {selectedHost && (
-                            <div>
-                                <h3 className="text-lg font-normal font-display text-foreground mb-1">Host</h3>
-                                <p className="text-sm text-foreground/80 leading-[150%] font-light tracking-tighter">
-                                    {selectedHost.label}
                                 </p>
                             </div>
                         )}
