@@ -116,7 +116,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                             {hostDisplayItems.map((item, i) => (
                                 <div
                                     key={i}
-                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4"
+                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4 tracking-tighter"
                                 >
                                     {item.label}
                                 </div>
@@ -134,7 +134,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                             {activityDisplayItems.map((item, i) => (
                                 <div
                                     key={i}
-                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4"
+                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4 tracking-tighter"
                                 >
                                     {item.label}
                                 </div>
