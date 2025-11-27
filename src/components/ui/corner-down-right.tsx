@@ -8,10 +8,12 @@ import { motion, useAnimation, useReducedMotion } from 'motion/react';
 import { cn } from '@/lib/utils';
 
 const STRETCH_VARIANTS: Variants = {
+  hidden: { scaleX: 1, x: 0, opacity: 0 },
   normal: { scaleX: 1, x: 0, opacity: 1 },
   animate: {
     scaleX: [1, 1.15, 1],
     x: [0, 2, 0],
+    opacity: 1,
     transition: {
       duration: 0.45,
       ease: 'easeInOut',
@@ -22,7 +24,9 @@ const STRETCH_VARIANTS: Variants = {
   animateOnce: {
     scaleX: [1, 1.15, 1],
     x: [0, 2, 0],
+    opacity: 1,
     transition: {
+      opacity: { duration: 0.3, ease: 'easeOut' },
       duration: 0.45,
       ease: 'easeInOut',
       repeat: 3,
@@ -93,7 +97,7 @@ const CornerDownRightIcon = forwardRef<
         strokeLinejoin="round"
         animate={controls}
         variants={STRETCH_VARIANTS}
-        initial="normal"
+        initial="hidden"
       >
         <path d="m15 10 5 5-5 5" />
         <path d="M4 4v7a4 4 0 0 0 4 4h12" />

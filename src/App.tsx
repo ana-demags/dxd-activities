@@ -25,19 +25,33 @@ function App() {
     const cornerDownRightDesktopRef = useRef<CornerDownRightIconHandle>(null);
     const loaderPinwheelDesktopRef = useRef<LoaderPinwheelIconHandle>(null);
 
-    // Animate icons on load, then stop
+    // Animate icons on load with staggered timing to match text animations
     useEffect(() => {
-        // Start animations
+        // Mobile icons - all start together since they appear above text
         washingMachineRef.current?.startAnimation();
         cornerDownRightRef.current?.startAnimation();
         loaderPinwheelRef.current?.startAnimation();
 
-        washingMachineDesktopRef.current?.startAnimation();
-        cornerDownRightDesktopRef.current?.startAnimation();
-        loaderPinwheelDesktopRef.current?.startAnimation();
+        // Desktop icons - stagger to match typewriter timing
+        // "Spin" completes at ~400ms
+        const washingTimer = setTimeout(() => {
+            washingMachineDesktopRef.current?.startAnimation();
+        }, 400);
 
-        // Stop animations after 2 seconds
-        const timer = setTimeout(() => {
+        // "That" starts at ~450ms - arrow appears before the word
+        const cornerTimer = setTimeout(() => {
+            cornerDownRightDesktopRef.current?.startAnimation();
+        }, 450);
+
+        // "Wheel" completes at ~1200ms (800ms start + 400ms duration)
+        const pinwheelTimer = setTimeout(() => {
+            loaderPinwheelDesktopRef.current?.startAnimation();
+        }, 1200);
+
+        // Stop all animations after ALL complete
+        // Pinwheel starts at 1200ms + 1000ms animation duration = finishes at 2200ms
+        // Add small buffer for clean finish
+        const stopTimer = setTimeout(() => {
             washingMachineRef.current?.stopAnimation();
             cornerDownRightRef.current?.stopAnimation();
             loaderPinwheelRef.current?.stopAnimation();
@@ -45,9 +59,14 @@ function App() {
             washingMachineDesktopRef.current?.stopAnimation();
             cornerDownRightDesktopRef.current?.stopAnimation();
             loaderPinwheelDesktopRef.current?.stopAnimation();
-        }, 2000);
+        }, 2300);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(washingTimer);
+            clearTimeout(cornerTimer);
+            clearTimeout(pinwheelTimer);
+            clearTimeout(stopTimer);
+        };
     }, []);
 
     return (
@@ -142,7 +161,7 @@ function App() {
 
                 {/* Design Exercises Section */}
                 <section id="design-exercises" className="w-full" style={{ marginTop: '304px' }}>
-                    <h2 className="font-display font-bold text-foreground mb-20 text-center lg:text-left tracking-tight" style={{ fontSize: '88px' }}>
+                    <h2 className="font-display font-bold text-foreground mb-14 lg:mb-20 text-center lg:text-left tracking-tight leading-[100%]" style={{ fontSize: '88px' }}>
                         Design exercises
                     </h2>
 
@@ -178,10 +197,10 @@ function App() {
                                 if (!activity) return null;
 
                                 return (
-                                    <div className="space-y-6">
-                                        <h3 className="font-display font-bold text-foreground mb-4 tracking-tight" style={{ fontSize: '56px' }}>
+                                    <div className="space-y-8">
+                                        <h4 className="font-display font-bold text-foreground mb-6 tracking-tight leading-[100%]" style={{ fontSize: '56px' }}>
                                             {activity.label}
-                                        </h3>
+                                        </h4>
 
                                         {activity.pillar && (
                                             <div className="mb-4">

@@ -69,12 +69,19 @@ const WashingMachineIcon = forwardRef<
       >
         <motion.g
           animate={controls}
+          initial="hidden"
           variants={{
+            hidden: {
+              x: 0,
+              opacity: 0,
+            },
             normal: {
               x: 0,
+              opacity: 1,
             },
             animate: {
               x: [0, 0.5, -0.5, 0.3, -0.3, 0],
+              opacity: 1,
               transition: {
                 duration: 0.8,
                 repeat: Infinity,
@@ -83,9 +90,11 @@ const WashingMachineIcon = forwardRef<
             },
             animateOnce: {
               x: [0, 0.5, -0.5, 0.3, -0.3, 0],
+              opacity: 1,
               transition: {
+                opacity: { duration: 0.3, ease: 'easeOut' },
                 duration: 0.8,
-                repeat: 2,
+                repeat: 0,
                 ease: 'easeInOut',
               },
             },
@@ -97,10 +106,17 @@ const WashingMachineIcon = forwardRef<
         </motion.g>
         <motion.g
           animate={controls}
+          initial="hidden"
           variants={{
+            hidden: {
+              rotate: 0,
+              y: 0,
+              opacity: 0,
+            },
             normal: {
               rotate: 0,
               y: 0,
+              opacity: 1,
               transition: {
                 duration: 0.5,
                 ease: 'linear',
@@ -109,6 +125,7 @@ const WashingMachineIcon = forwardRef<
             animate: {
               rotate: 360,
               y: [0, -0.3, 0, 0.3, 0],
+              opacity: 1,
               transition: {
                 rotate: {
                   duration: 1,
@@ -125,15 +142,17 @@ const WashingMachineIcon = forwardRef<
             animateOnce: {
               rotate: 360,
               y: [0, -0.3, 0, 0.3, 0],
+              opacity: 1,
               transition: {
+                opacity: { duration: 0.3, ease: 'easeOut' },
                 rotate: {
                   duration: 1,
-                  repeat: 2,
+                  repeat: 0,
                   ease: 'linear',
                 },
                 y: {
                   duration: 0.3,
-                  repeat: 2,
+                  repeat: 0,
                   ease: 'easeInOut',
                 },
               },

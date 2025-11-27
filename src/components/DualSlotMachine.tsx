@@ -26,6 +26,8 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
     const [sheetOpen, setSheetOpen] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState<WheelItem | null>(null);
     const [selectedHost, setSelectedHost] = useState<WheelItem | null>(null);
+    const recentHostsRef = useRef<string[]>([]);
+    const recentActivitiesRef = useRef<string[]>([]);
     const itemHeight = 88;
     const repeatCount = 20;
 
@@ -33,16 +35,51 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
     const hostDisplayItems = Array(repeatCount).fill(hosts).flat();
     const activityDisplayItems = Array(repeatCount).fill(activities).flat();
 
+    // Weighted random selection that avoids recent picks
+    const weightedRandomSelection = (items: WheelItem[], recentItems: string[], maxRecent = 3) => {
+        // Create weighted array - recent items get lower weight
+        const weights = items.map(item => {
+            const recentIndex = recentItems.indexOf(item.label);
+            if (recentIndex === -1) return 1; // Not recently selected
+            // Reduce weight based on how recently it was selected (most recent = lowest weight)
+            return Math.max(0.1, 1 - (maxRecent - recentIndex) * 0.3);
+        });
+
+        // Calculate total weight
+        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+
+        // Pick random value
+        let random = Math.random() * totalWeight;
+
+        // Find the selected item
+        for (let i = 0; i < items.length; i++) {
+            random -= weights[i];
+            if (random <= 0) {
+                return i;
+            }
+        }
+
+        return items.length - 1; // Fallback
+    };
+
     const spin = () => {
-        if (isSpinning || !hostStripRef.current || !activityStripRef.current) return;
+        if (isSpinning) return;
         setIsSpinning(true);
 
-        // Randomly select winners
-        const hostWinnerIndex = Math.floor(Math.random() * hosts.length);
-        const activityWinnerIndex = Math.floor(Math.random() * activities.length);
+        // Use weighted random selection to avoid recent picks
+        const hostWinnerIndex = weightedRandomSelection(hosts, recentHostsRef.current);
+        const activityWinnerIndex = weightedRandomSelection(activities, recentActivitiesRef.current);
 
         const selectedHostWinner = hosts[hostWinnerIndex];
         const selectedActivityWinner = activities[activityWinnerIndex];
+
+        // Update recent selections history
+        recentHostsRef.current = [selectedHostWinner.label, ...recentHostsRef.current].slice(0, 3);
+        recentActivitiesRef.current = [selectedActivityWinner.label, ...recentActivitiesRef.current].slice(0, 3);
+
+        // Set selections immediately so refs can be created
+        setSelectedActivity(selectedActivityWinner);
+        setSelectedHost(selectedHostWinner);
 
         // Check for reduced motion preference
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -51,8 +88,6 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
             // Instant result for reduced motion
             setTimeout(() => {
                 setIsSpinning(false);
-                setSelectedActivity(selectedActivityWinner);
-                setSelectedHost(selectedHostWinner);
                 setSheetOpen(true);
 
                 // Position strips instantly
@@ -71,41 +106,44 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
             return;
         }
 
-        // Calculate scroll distances
-        const targetRepetition = 15;
-        const hostTargetIndex = (targetRepetition * hosts.length) + hostWinnerIndex;
-        const activityTargetIndex = (targetRepetition * activities.length) + activityWinnerIndex;
-        const hostScrollDistance = hostTargetIndex * itemHeight;
-        const activityScrollDistance = activityTargetIndex * itemHeight;
+        // Wait for next frame so refs are available
+        requestAnimationFrame(() => {
+            if (!hostStripRef.current || !activityStripRef.current) return;
 
-        // Apply spin animations to both
-        hostStripRef.current.style.transition = 'transform 3s cubic-bezier(0.1, 0.9, 0.2, 1)';
-        hostStripRef.current.style.transform = `translateY(-${hostScrollDistance}px)`;
+            // Calculate scroll distances
+            const targetRepetition = 15;
+            const hostTargetIndex = (targetRepetition * hosts.length) + hostWinnerIndex;
+            const activityTargetIndex = (targetRepetition * activities.length) + activityWinnerIndex;
+            const hostScrollDistance = hostTargetIndex * itemHeight;
+            const activityScrollDistance = activityTargetIndex * itemHeight;
 
-        activityStripRef.current.style.transition = 'transform 3s cubic-bezier(0.1, 0.9, 0.2, 1)';
-        activityStripRef.current.style.transform = `translateY(-${activityScrollDistance}px)`;
+            // Apply spin animations to both
+            hostStripRef.current.style.transition = 'transform 3s cubic-bezier(0.1, 0.9, 0.2, 1)';
+            hostStripRef.current.style.transform = `translateY(-${hostScrollDistance}px)`;
 
-        setTimeout(() => {
-            setIsSpinning(false);
-            setSelectedActivity(selectedActivityWinner);
-            setSelectedHost(selectedHostWinner);
-            setSheetOpen(true);
+            activityStripRef.current.style.transition = 'transform 3s cubic-bezier(0.1, 0.9, 0.2, 1)';
+            activityStripRef.current.style.transform = `translateY(-${activityScrollDistance}px)`;
 
-            // Reset both strips silently
-            if (hostStripRef.current) {
-                hostStripRef.current.style.transition = 'none';
-                const resetDistance = hostWinnerIndex * itemHeight;
-                hostStripRef.current.style.transform = `translateY(-${resetDistance}px)`;
-                hostStripRef.current.offsetHeight; // Force reflow
-            }
+            setTimeout(() => {
+                setIsSpinning(false);
+                setSheetOpen(true);
 
-            if (activityStripRef.current) {
-                activityStripRef.current.style.transition = 'none';
-                const resetDistance = activityWinnerIndex * itemHeight;
-                activityStripRef.current.style.transform = `translateY(-${resetDistance}px)`;
-                activityStripRef.current.offsetHeight; // Force reflow
-            }
-        }, 3000);
+                // Reset both strips silently
+                if (hostStripRef.current) {
+                    hostStripRef.current.style.transition = 'none';
+                    const resetDistance = hostWinnerIndex * itemHeight;
+                    hostStripRef.current.style.transform = `translateY(-${resetDistance}px)`;
+                    hostStripRef.current.offsetHeight; // Force reflow
+                }
+
+                if (activityStripRef.current) {
+                    activityStripRef.current.style.transition = 'none';
+                    const resetDistance = activityWinnerIndex * itemHeight;
+                    activityStripRef.current.style.transform = `translateY(-${resetDistance}px)`;
+                    activityStripRef.current.offsetHeight; // Force reflow
+                }
+            }, 3000);
+        });
     };
 
     return (
@@ -115,17 +153,25 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                 <div className="flex flex-col gap-3">
                     <h3 className="text-lg font-normal font-display text-foreground">Host</h3>
                     <div className="relative w-full h-[88px] bg-background rounded-md overflow-hidden border-[1px] border-dashed border-border/20">
-                        <div ref={hostStripRef} className="w-full text-center">
-                            {hostDisplayItems.map((item, i) => (
-                                <div
-                                    key={i}
-                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4 tracking-tighter"
-                                >
-                                    {item.label}
+                        {!selectedHost ? (
+                            <div className="w-full h-[88px] flex items-center justify-center text-sm text-foreground/40 font-light tracking-tighter">
+                                Reveal host
+                            </div>
+                        ) : (
+                            <>
+                                <div ref={hostStripRef} className="w-full text-center">
+                                    {hostDisplayItems.map((item, i) => (
+                                        <div
+                                            key={i}
+                                            className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4 tracking-tighter"
+                                        >
+                                            {item.label}
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-background via-transparent to-background" />
+                                <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-background via-transparent to-background" />
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -133,17 +179,25 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                 <div className="flex flex-col gap-3">
                     <h3 className="text-lg font-normal font-display text-foreground">Activity</h3>
                     <div className="relative w-full h-[88px] bg-background rounded-md overflow-hidden border-[1px] border-dashed border-border/20">
-                        <div ref={activityStripRef} className="w-full text-center">
-                            {activityDisplayItems.map((item, i) => (
-                                <div
-                                    key={i}
-                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4 tracking-tighter"
-                                >
-                                    {item.label}
+                        {!selectedActivity ? (
+                            <div className="w-full h-[88px] flex items-center justify-center text-sm text-foreground/40 font-light tracking-tighter">
+                                Reveal activity
+                            </div>
+                        ) : (
+                            <>
+                                <div ref={activityStripRef} className="w-full text-center">
+                                    {activityDisplayItems.map((item, i) => (
+                                        <div
+                                            key={i}
+                                            className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4 tracking-tighter"
+                                        >
+                                            {item.label}
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-background via-transparent to-background" />
+                                <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-background via-transparent to-background" />
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -173,7 +227,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                     View all exercises
                     <ArrowDownIcon ref={arrowDownRef} className="ml-3" size={20} />
                 </Button>
-                {selectedActivity && (
+                {selectedActivity && !isSpinning && (
                     <Button
                         variant="outline"
                         onClick={() => setSheetOpen(true)}

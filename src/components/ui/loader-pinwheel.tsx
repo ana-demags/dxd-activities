@@ -17,9 +17,11 @@ interface LoaderPinwheelIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const gVariants: Variants = {
-  normal: { rotate: 0 },
+  hidden: { rotate: 0, opacity: 0 },
+  normal: { rotate: 0, opacity: 1 },
   animate: {
     rotate: 360,
+    opacity: 1,
     transition: {
       repeat: Infinity,
       duration: 1,
@@ -27,9 +29,11 @@ const gVariants: Variants = {
     },
   },
   animateOnce: {
-    rotate: 720,
+    rotate: 360,
+    opacity: 1,
     transition: {
-      duration: 2,
+      opacity: { duration: 0.3, ease: 'easeOut' },
+      duration: 1,
       ease: 'easeInOut',
     },
   },
@@ -98,12 +102,13 @@ const LoaderPinwheelIcon = forwardRef<
           transition={defaultTransition}
           variants={gVariants}
           animate={controls}
+          initial="hidden"
         >
           <path d="M22 12a1 1 0 0 1-10 0 1 1 0 0 0-10 0" />
           <path d="M7 20.7a1 1 0 1 1 5-8.7 1 1 0 1 0 5-8.6" />
           <path d="M7 3.3a1 1 0 1 1 5 8.6 1 1 0 1 0 5 8.6" />
+          <circle cx="12" cy="12" r="10" />
         </motion.g>
-        <circle cx="12" cy="12" r="10" />
       </svg>
     </div>
   );
