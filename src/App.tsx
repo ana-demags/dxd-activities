@@ -51,59 +51,56 @@ function App() {
         <div className="min-h-screen w-full bg-background flex items-center justify-center p-8">
             <div className="w-full mx-auto" style={{ maxWidth: '1184px' }}>
                 {/* 2-column layout on large screens, stacked on smaller screens */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[48px] lg:gap-[88px] items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[48px] lg:gap-[56px] items-center">
                     {/* Left column: Heading and description */}
                     <div className="text-center lg:text-left w-full">
                         {/* Mobile: Icons row above text */}
                         <div className="flex items-center justify-center gap-3 mb-6 lg:hidden">
                             <WashingMachineIcon
                                 ref={washingMachineRef}
-                                size={60}
-                                className="text-primary"
+                                className="text-icon-washing-machine w-[72px] h-[72px] md:w-[100px] md:h-[100px] [&_svg]:w-full [&_svg]:h-full"
                             />
                             <CornerDownRightIcon
                                 ref={cornerDownRightRef}
-                                size={60}
-                                className="text-primary"
+                                className="text-icon-corner-down-right w-[72px] h-[72px] md:w-[100px] md:h-[100px] [&_svg]:w-full [&_svg]:h-full"
                             />
                             <LoaderPinwheelIcon
                                 ref={loaderPinwheelRef}
-                                size={60}
-                                className="text-primary"
+                                className="text-icon-loader-pinwheel w-[72px] h-[72px] md:w-[100px] md:h-[100px] [&_svg]:w-full [&_svg]:h-full"
                             />
                         </div>
 
-                        <h1 className="text-[104px] md:text-[136px] tracking-tighter font-display text-foreground mb-6 font-normal cursor-default flex flex-col gap-0 items-center lg:items-start">
+                        <h1 className="text-[104px] md:text-[136px] tracking-tighter font-display font-bold text-foreground mb-6 cursor-default flex flex-col gap-0 items-center lg:items-start">
                             <span className="inline-flex items-center gap-6 leading-none">
-                                Spin!
+                                <span className="inline-block overflow-hidden whitespace-nowrap w-0 animate-typewriter-1">Spin</span>
                                 <WashingMachineIcon
                                     ref={washingMachineDesktopRef}
                                     size={100}
-                                    className="text-primary hidden lg:block"
+                                    className="text-icon-washing-machine hidden lg:block"
                                 />
                             </span>
                             <span className="inline-flex items-center gap-6 leading-none">
                                 <CornerDownRightIcon
                                     ref={cornerDownRightDesktopRef}
                                     size={100}
-                                    className="text-primary hidden lg:block"
+                                    className="text-icon-corner-down-right hidden lg:block"
                                 />
-                                That!
+                                <span className="inline-block overflow-hidden whitespace-nowrap w-0 animate-typewriter-2">That</span>
                             </span>
                             <span className="inline-flex items-center gap-6 leading-none">
-                                Wheel!
+                                <span className="inline-block overflow-hidden whitespace-nowrap w-0 animate-typewriter-3">Wheel</span>
                                 <LoaderPinwheelIcon
                                     ref={loaderPinwheelDesktopRef}
                                     size={100}
-                                    className="text-primary hidden lg:block"
+                                    className="text-icon-loader-pinwheel hidden lg:block"
                                 />
                             </span>
                         </h1>
-                        <p className="text-foreground/80 text-sm leading-[150%] tracking-tighter font-light max-w-[400px] mx-auto lg:mx-0">
-                            Welcome to the DX Design team's edition of wheel of fortune, sort of. Every week, we spin to reveal a new host and activity.{' '}
+                        <p className="text-foreground/80 text-sm leading-[150%] tracking-tighter font-light max-w-[520px] mx-auto lg:mx-0 opacity-0 animate-fade-in">
+                            Welcome to the DX Design team's take on <s>Wheel</s> Input of Fortune. Every week, we spin to reveal a host and a 30-minute activity meant to sharpen our brains and design skills.{' '}
                             (<Button
                                 variant="link"
-                                className="text-foreground/80 p-0 h-auto font-light underline decoration-dashed underline-offset-4 hover:text-foreground"
+                                className="text-foreground/80 p-0 h-auto font-medium underline decoration-wavy underline-offset-4 hover:decoration-solid"
                                 onClick={() => setIsWhySheetOpen(true)}
                             >
                                 Why, you ask?
@@ -112,7 +109,7 @@ function App() {
                     </div>
 
                     {/* Right column: Slot machine and button */}
-                    <div className="w-full">
+                    <div className="w-full opacity-0 animate-fade-in">
                         <DualSlotMachine hosts={hosts} activities={activities} />
                     </div>
                 </div>
@@ -126,7 +123,9 @@ function App() {
                         </SheetHeader>
                         <div className="space-y-6 text-foreground/80 text-sm leading-[150%] tracking-tighter font-light">
                             <p>
-                                Our goal with these sessions is to keep design, product thinking, and creativity alive in our team. They’re short, low-lift moments of togetherness that invite everyone to think like designers, educators, and storytellers (because we all are!)
+                                This little site was made with love (and your usual, slightly obsessive design traits) by Ana De Magalhães. </p>
+                            <p>
+                                Our goal with these activities is to keep design, product thinking, and creativity alive in our team. They’re short, low-lift moments of togetherness that invite everyone to think like designers, educators, and storytellers (because we all are!)
                             </p>
                             <p>
                                 We make space to zoom out, celebrate small details, and remind ourselves why great experiences matter. Every session is meant to spark curiosity and deepen our shared understanding of the crafts that connect us.

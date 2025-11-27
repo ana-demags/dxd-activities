@@ -23,7 +23,7 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
     const [sheetOpen, setSheetOpen] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState<WheelItem | null>(null);
     const [selectedHost, setSelectedHost] = useState<WheelItem | null>(null);
-    const itemHeight = 72;
+    const itemHeight = 88;
     const repeatCount = 20;
 
     // Render items multiple times for seamless scrolling
@@ -40,6 +40,33 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
 
         const selectedHostWinner = hosts[hostWinnerIndex];
         const selectedActivityWinner = activities[activityWinnerIndex];
+
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (prefersReducedMotion) {
+            // Instant result for reduced motion
+            setTimeout(() => {
+                setIsSpinning(false);
+                setSelectedActivity(selectedActivityWinner);
+                setSelectedHost(selectedHostWinner);
+                setSheetOpen(true);
+
+                // Position strips instantly
+                if (hostStripRef.current) {
+                    hostStripRef.current.style.transition = 'none';
+                    const resetDistance = hostWinnerIndex * itemHeight;
+                    hostStripRef.current.style.transform = `translateY(-${resetDistance}px)`;
+                }
+
+                if (activityStripRef.current) {
+                    activityStripRef.current.style.transition = 'none';
+                    const resetDistance = activityWinnerIndex * itemHeight;
+                    activityStripRef.current.style.transform = `translateY(-${resetDistance}px)`;
+                }
+            }, 500); // Short delay for UX
+            return;
+        }
 
         // Calculate scroll distances
         const targetRepetition = 15;
@@ -84,12 +111,12 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                 {/* Host Slot */}
                 <div className="flex flex-col gap-3">
                     <h3 className="text-lg font-normal font-display text-foreground">Host</h3>
-                    <div className="relative w-full h-[72px] bg-background rounded-md overflow-hidden border-[1px] border-dashed border-border/20">
+                    <div className="relative w-full h-[88px] bg-background rounded-md overflow-hidden border-[1px] border-dashed border-border/20">
                         <div ref={hostStripRef} className="w-full text-center">
                             {hostDisplayItems.map((item, i) => (
                                 <div
                                     key={i}
-                                    className="h-[72px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4"
+                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4"
                                 >
                                     {item.label}
                                 </div>
@@ -102,12 +129,12 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
                 {/* Activity Slot */}
                 <div className="flex flex-col gap-3">
                     <h3 className="text-lg font-normal font-display text-foreground">Activity</h3>
-                    <div className="relative w-full h-[72px] bg-background rounded-md overflow-hidden border-[1px] border-dashed border-border/20">
+                    <div className="relative w-full h-[88px] bg-background rounded-md overflow-hidden border-[1px] border-dashed border-border/20">
                         <div ref={activityStripRef} className="w-full text-center">
                             {activityDisplayItems.map((item, i) => (
                                 <div
                                     key={i}
-                                    className="h-[72px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4"
+                                    className="h-[88px] flex items-center justify-center text-sm text-foreground leading-none font-light truncate w-full px-4"
                                 >
                                     {item.label}
                                 </div>
@@ -121,25 +148,28 @@ export const DualSlotMachine: React.FC<DualSlotMachineProps> = ({ hosts, activit
             <Button
                 onClick={spin}
                 disabled={isSpinning}
-                className="w-full bg-foreground hover:bg-foreground/90 text-background text-sm font-medium tracking-[-0.5px] h-[72px] font-sans"
+                className="w-full bg-foreground hover:bg-foreground/90 text-background text-sm tracking-[-0.5px] h-[88px] font-sans"
                 size="lg"
             >
                 {isSpinning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isSpinning ? 'Fortune telling...' : 'Spin right round'}
             </Button>
 
-            {selectedActivity && (
-                <Button
-                    variant="ghost"
-                    onClick={() => setSheetOpen(true)}
-                    onMouseEnter={() => circleHelpRef.current?.startAnimation()}
-                    onMouseLeave={() => circleHelpRef.current?.stopAnimation()}
-                    className="w-full text-foreground hover:text-foreground hover:bg-foreground/10 text-sm font-medium tracking-[-0.5px] h-[72px] font-sans mt-2"
-                >
-                    <CircleHelpIcon ref={circleHelpRef} className="mr-2" size={20} />
-                    Activity instructions
-                </Button>
-            )}
+            <div className="h-[88px] mt-2 w-full">
+                {selectedActivity && (
+                    <Button
+                        variant="ghost"
+                        onClick={() => setSheetOpen(true)}
+                        onMouseEnter={() => circleHelpRef.current?.startAnimation()}
+                        onMouseLeave={() => circleHelpRef.current?.stopAnimation()}
+                        size="lg"
+                        className="w-full text-foreground/50 hover:text-foreground hover:bg-foreground/10 text-sm tracking-[-0.5px] h-[88px] font-sans"
+                    >
+                        <CircleHelpIcon ref={circleHelpRef} className="mr-2" size={20} />
+                        Activity details
+                    </Button>
+                )}
+            </div>
 
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetContent className="bg-background border-border/20 sm:max-w-[500px]">

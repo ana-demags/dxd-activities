@@ -33,6 +33,10 @@
         --ring: 81 96% 61%;
 
         --radius: 0.5rem;
+
+        --icon-washing-machine: 61 100% 50%;
+        --icon-corner-down-right: 240 69% 63%;
+        --icon-loader-pinwheel: 21 100% 50%;
     }
 
     .dark {
@@ -69,9 +73,66 @@
 @layer base {
     * {
         @apply border-border;
+        cursor: url("/desktop.ico"), auto;
     }
 
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@layer utilities {
+    .cursor-pointer {
+        cursor: pointer;
+    }
+}
+
+/* Typewriter animation for H1 words */
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes typewriter {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Fallback for reduced motion - no animation, just show text */
+@media (prefers-reduced-motion: reduce) {
+    @keyframes typewriter {
+        from {
+            width: 100%;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }

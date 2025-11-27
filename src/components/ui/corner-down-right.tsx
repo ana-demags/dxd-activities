@@ -3,7 +3,7 @@
 import type { Variants } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation } from 'motion/react';
+import { motion, useAnimation, useReducedMotion } from 'motion/react';
 
 import { cn } from '@/lib/utils';
 
@@ -46,21 +46,24 @@ const CornerDownRightIcon = forwardRef<
 >(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
   const controls = useAnimation();
   const isControlledRef = useRef(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useImperativeHandle(ref, () => {
     isControlledRef.current = true;
     return {
-      startAnimation: () => controls.start('animateOnce'),
+      startAnimation: () => {
+        if (!shouldReduceMotion) controls.start('animateOnce');
+      },
       stopAnimation: () => controls.start('normal'),
     };
   });
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      controls.start('animate');
+      if (!shouldReduceMotion) controls.start('animate');
       onMouseEnter?.(e);
     },
-    [controls, onMouseEnter]
+    [controls, onMouseEnter, shouldReduceMotion]
   );
 
   const handleMouseLeave = useCallback(

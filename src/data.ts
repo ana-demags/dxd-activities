@@ -7,14 +7,14 @@ export interface WheelItem {
 }
 
 export const hosts: WheelItem[] = [
-  { label: 'Ana' },
-  { label: 'Brian' },
-  { label: 'Ronan' },
-  { label: 'Michelle' },
-  { label: 'Daniel' },
-  { label: 'Jay' },
-  { label: 'Caydie' },
-  { label: 'Nohana' },
+  { label: 'Ana De Magalhães' },
+  { label: 'Brian Santiago' },
+  { label: 'Ronan Flynn-Curran' },
+  { label: 'Michelle Mabuyo' },
+  { label: 'Daniel Abdelsamed' },
+  { label: 'Jay Chesterman' },
+  { label: 'Caydie Tran' },
+  { label: 'Nohana Rooney' },
 ];
 
 export const activities: WheelItem[] = [
@@ -69,7 +69,7 @@ export const activities: WheelItem[] = [
   {
     label: 'Teach us something',
     pillar: 'Craft',
-    purpose: 'Build confidence and practice in teaching something clearly and concisely',
+    purpose: 'Build confidence and practice in teaching something clearly and concisely.',
     hostRole: 'A short mini-lesson on anything (work-related or random or something you\'re super interested in). Can be hands-on or conceptual.'
   },
   {

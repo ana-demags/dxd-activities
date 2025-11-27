@@ -54,6 +54,9 @@ module.exports = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+                "icon-washing-machine": "hsl(var(--icon-washing-machine))",
+                "icon-corner-down-right": "hsl(var(--icon-corner-down-right))",
+                "icon-loader-pinwheel": "hsl(var(--icon-loader-pinwheel))",
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -73,6 +76,10 @@ module.exports = {
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
+                "typewriter-1": "typewriter 0.4s steps(8) 0s forwards",
+                "typewriter-2": "typewriter 0.3s steps(8) 0.45s forwards",
+                "typewriter-3": "typewriter 0.4s steps(10) 0.8s forwards",
+                "fade-in": "fade-in 0.6s ease-out 1.2s forwards",
             },
         },
     },
