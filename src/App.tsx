@@ -131,7 +131,7 @@ function App() {
                     </div>
 
                     {/* Right column: Slot machine and button */}
-                    <div className="w-full opacity-0 animate-fade-in">
+                    <div className="w-full opacity-0 animate-fade-in-content">
                         <DualSlotMachine hosts={hosts} activities={activities} />
                     </div>
                 </div>
