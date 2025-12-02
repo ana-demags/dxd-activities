@@ -159,10 +159,10 @@ function App() {
                     </SheetContent>
                 </Sheet>
 
-                {/* Design Exercises Section */}
+                {/* Design Activities Section */}
                 <section id="design-exercises" className="w-full" style={{ marginTop: '304px' }}>
                     <h2 className="font-display font-bold text-foreground mb-14 lg:mb-20 text-center lg:text-left tracking-tight leading-[100%]" style={{ fontSize: '88px' }}>
-                        Design exercises
+                        Design activities
                     </h2>
 
                     <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-20">
@@ -170,7 +170,7 @@ function App() {
                         <div className="lg:sticky lg:top-8 lg:self-start">
                             <h3 className="text-lg font-display text-foreground mb-4 flex items-center gap-3">
                                 <FolderOpen size={18} className="text-foreground/80" />
-                                All activities
+                                All exercises
                             </h3>
                             <nav className="border-l border-foreground/20 pl-4 space-y-1">
                                 {activities.map((activity) => (
