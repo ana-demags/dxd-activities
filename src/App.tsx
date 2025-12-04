@@ -162,7 +162,7 @@ function App() {
                 {/* Design Activities Section */}
                 <section id="design-exercises" className="w-full" style={{ marginTop: '304px' }}>
                     <h2 className="font-display font-bold text-foreground mb-14 lg:mb-20 text-center lg:text-left tracking-tight leading-[100%]" style={{ fontSize: '88px' }}>
-                        Design activities
+                        DX Design activities
                     </h2>
 
                     <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-20">
