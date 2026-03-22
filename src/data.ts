@@ -7,14 +7,18 @@ export interface WheelItem {
 }
 
 export const hosts: WheelItem[] = [
-  { label: 'Ana De Magalhães' },
-  { label: 'Brian Santiago' },
-  { label: 'Ronan Flynn-Curran' },
-  { label: 'Michelle Mabuyo' },
-  { label: 'Daniel Abdelsamed' },
-  { label: 'Jay Chesterman' },
-  { label: 'Caydie Tran' },
-  { label: 'Nohana Rooney' },
+  { label: 'Ana' },
+  { label: 'Brian' },
+  { label: 'Ronan' },
+  { label: 'Michelle' },
+  { label: 'Daniel' },
+  { label: 'Jay' },
+  { label: 'Caydie' },
+  { label: 'Parker' },
+  { label: 'Tousue' },
+  { label: 'Nohana' },
+
+
 ];
 
 export const activities: WheelItem[] = [
